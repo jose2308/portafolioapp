@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="Description" content="Put your description here.">
+  <base href="/">
+  <script src="./src/utils/utils.js"></script>
+
+  <link rel="stylesheet" href="./src/styles/index.css">
+  <link rel="stylesheet" href="./node_modules/@shoelace-style/shoelace/dist/themes/dark.css"/>
+  <link rel="stylesheet" href="./node_modules/@shoelace-style/shoelace/dist/themes/light.css"/>
+  <script type="module" src="./node_modules/@shoelace-style/shoelace/dist/shoelace.js"></script>
+  <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.15.1/cdn/components/icon/icon.js"></script>
+  <style>
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+    }
+  </style>
+  <title>portfolio-app</title>
+</head>
+<body>
+  <portfolio-app></portfolio-app>
+
+  <script type="module">
+    import { registerIconLibrary } from './node_modules/@shoelace-style/shoelace/dist/utilities/icon-library.js';
+    const $bodyElement = document.body;
+    $bodyElement.addEventListener('changed-theme', function(evt) {
+      const { detail } = evt;
+      const themes = {
+        'moon': 'sl-theme-dark',
+        'brightness-high': 'sl-theme-light'
+      }
+      this.setAttribute('class', themes[detail]);
+    });
+
+    registerIconLibrary('my-icons', {
+      resolver: name => `./assets/${name}.svg`,
+      mutator: svg => svg.setAttribute('fill', 'currentColor')
+    });
+  </script>
+  <script type="module" src="./src/portfolio-app.js"></script>
+
+</body>
+</html>
