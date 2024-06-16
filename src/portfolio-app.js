@@ -1,7 +1,7 @@
-import { LitElement, html, css } from "lit";
+import { LitElement, html, css, nothing } from "lit";
 import { stylesApp } from "./styles/indexStyles.js";
 import "./components/HeaderComponent.js";
-import { technologies } from "../data/data.js";
+import * as data from "../data/data.js";
 const logo = new URL("../assets/open-wc-logo.svg", import.meta.url).href;
 
 class PortfolioApp extends LitElement {
@@ -9,6 +9,8 @@ class PortfolioApp extends LitElement {
     header: { type: String },
     links: { type: Array },
     technologies: { type: Array },
+    information: { type: String },
+    hobbies: { type: Array },
   };
 
   static styles = [stylesApp(css)];
@@ -16,10 +18,29 @@ class PortfolioApp extends LitElement {
   constructor() {
     super();
     this.header = "My app";
-    this.links = [
-      { icon: "bitbucket", url: "www.google.com", label: "bitbucket" },
-    ];
-    this.technologies = technologies;
+    this.links = data.linksSocial;
+    this.technologies = data.technologies;
+    this.information = data.information;
+    this.education = data.education;
+    this.hobbies = data.hobbies;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    const $bodyElement = document.body;
+    console.log($bodyElement);
+    this.addEventListener("changed-theme", function (evt) {
+      const { detail } = evt;
+      const themes = {
+        moon: "sl-theme-dark",
+        "brightness-high": "sl-theme-light",
+      };
+      console.log("hola mundo");
+      for (const [index, dato] of $bodyElement.classList.entries()) {
+        $bodyElement.classList.remove(dato);
+      }
+      $bodyElement.classList.add(themes[detail]);
+    });
   }
 
   get _linksSocial() {
@@ -29,7 +50,7 @@ class PortfolioApp extends LitElement {
           (link) => html`
             <sl-icon-button
               class="link__icon"
-              library="my-icons"
+              library=${link.library}
               name="${link.icon}"
               label=${link.label}
               href="${link.url}"
@@ -65,6 +86,48 @@ class PortfolioApp extends LitElement {
     )}`;
   }
 
+  get _getEducation() {
+    return html`${this.education.length
+      ? this.education.map(
+          (education) => html`
+            <div>
+              <h3>${education.school}</h3>
+              ${education.certificate
+                ? html`<p>${education.certificate}</p>`
+                : nothing}
+              <time>${education.startDate}</time> -
+              <time>${education.endDate}</time>
+            </div>
+          `
+        )
+      : nothing}`;
+  }
+
+  get _getHobbies() {
+    return html`
+      <div class="container__hobbies">
+        ${this.hobbies.length
+          ? this.hobbies.map(
+              (hobbie) => html`
+                <sl-image-comparer position=${hobbie.position} class="${hobbie.class}">
+                  <img
+                    slot="before"
+                    src=${hobbie.startImg}
+                    alt="A person sitting on bricks wearing untied boots."
+                  />
+                  <img
+                    slot="after"
+                    src=${hobbie.endImg}
+                    alt="A person sitting on a yellow curb tying shoelaces on a boot."
+                  />
+                </sl-image-comparer>
+              `
+            )
+          : nothing}
+      </div>
+    `;
+  }
+
   render() {
     return html`
       <header-component imgAvatar="../assets/avatar.jpg"></header-component>
@@ -77,25 +140,10 @@ class PortfolioApp extends LitElement {
           </div>
         </section>
         <section class="information">
-          <h3>
-            Soy un desarrollador web, apasionado por el mundo de la informatica,
-            la parte que más me gusta es desarrollar la lógica para las
-            aplicaciones web, construir sitios web a través de buenas practicas
-            de programación.
-          </h3>
+          <h3>${this.information}</h3>
           <sl-card class="card-header">
             <div slot="header"><h2>Educación</h2></div>
-            <div>
-              <h3>Universidad</h3>
-              <p>Ingenieria en computación</p>
-              <time>2015</time> - <time>2019</time>
-            </div>
-
-            <div>
-            <h3>Bachillerato</h3>
-              <p>Tecnico en sporte y mantenimiento de equipo de cómputo</p>
-              <time>2012</time> - <time>2015</time>
-            </div>
+            ${this._getEducation}
           </sl-card>
 
           <sl-card class="card-header">
@@ -103,9 +151,14 @@ class PortfolioApp extends LitElement {
             This card has a header. You can put all sorts of things in it!
           </sl-card>
 
-          <sl-details summary="Tecnologias">
+          <sl-details summary="Tecnologias" class="card-header">
             ${this._getTechnologies}
           </sl-details>
+
+          <sl-card class="card-header">
+            <div slot="header"><h2>Hobbies</h2></div>
+            ${this._getHobbies}
+          </sl-card>
         </section>
       </main>
     `;

@@ -70,7 +70,8 @@ export default {
     copy({
       targets: [
         //{ src: "./languages/**/*", dest: "dist/languages" },
-        { src: "./assets/**/*", dest: "dist/assets" }
+        { src: "./assets/**/*", dest: "dist/assets" },
+        { src: "./src/**/*", dest: "dist/src" }
       ]
     }),
   ],

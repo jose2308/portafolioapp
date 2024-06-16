@@ -57,7 +57,7 @@ export default class HeaderComponent extends LitElement {
   _changeTheme(isFirstRender, element) {
     const getTheme = getStorage('theme');
     const icon = element.getAttribute('name');
-    const iconSelected = isFirstRender ? (getTheme || icon) : (this._selectedTheme(getTheme) || this._selectedTheme(icon));
+    const iconSelected = isFirstRender ? (getTheme || icon) : (this._selectedTheme(getTheme) || this._selectedTheme(iconSelected));
     element.setAttribute('name', iconSelected);
     setStorage('theme', iconSelected);
     _dispatchCustomEvent(this, 'changed-theme', iconSelected);
