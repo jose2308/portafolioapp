@@ -6,8 +6,10 @@
       name="viewport"
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
-    <meta name="Description" content="Put your description here." />
+    <meta name="Description" content="Put your description here."/>
     <script src="./src/utils/utils.js"></script>
+    <script type="module" src="./src/utils/translateConfig.js"></script>
+
     <link rel="stylesheet" href="./src/styles/index.css" />
     <link
       rel="stylesheet"
@@ -29,10 +31,10 @@
       }
     </style>
     <title>portfolio-app</title>
+
   </head>
   <body>
     <portfolio-app></portfolio-app>
-
     <script type="module" src="./src/portfolio-app.js"></script>
     <script type="module">
       import { registerIconLibrary } from "./node_modules/@shoelace-style/shoelace/dist/utilities/icon-library.js";
@@ -40,6 +42,10 @@
       registerIconLibrary("my-icons", {
         resolver: (name) => `./assets/${name}.svg`,
         mutator: (svg) => svg.setAttribute("fill", "currentColor"),
+      });
+
+      registerIconLibrary("languages-icons", {
+        resolver: (name) => `./assets/languages/${name}.svg`
       });
 
       registerIconLibrary("default", {

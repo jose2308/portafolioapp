@@ -7,7 +7,7 @@ export const stylesApp = (css) => css`
 
   header-component {
     position: sticky;
-    padding: 0;
+    padding: 0 1rem;
     margin: 0;
     top: 0px;
   }
@@ -93,11 +93,39 @@ export const stylesApp = (css) => css`
     font-size: 1.5rem;
     font-weight: bold;
   }
+
+  .menu__languages::part(header) {
+    font-size: 1rem;
+  }
+
+  .spacing-small {
+    margin: 0.5rem;
+  }
+
+  .icon_company {
+    margin-right: 0.5rem;
+  }
+
+  .card__experience {
+    margin-bottom: 2rem;
+  }
+
+  .main__information {
+    margin: 2rem 0;
+  }
+
   @media (max-width: 1024px) {
+
+    header-component {
+      position: relative;
+    }
+    
     .container__app {
+      display: block;
       box-sizing: border-box;
       flex-direction: column;
       height: 70vh;
+      
     }
     .information {
       flex: 2;
@@ -109,6 +137,12 @@ export const stylesApp = (css) => css`
   }
 
   @media (max-width: 420px) {
+    header-component {
+      position: relative;
+    }
+    .container__app {
+      display: block;
+    }
     .container__presentation h1 {
       font-size: 1.2rem;
     }

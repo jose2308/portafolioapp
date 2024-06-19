@@ -1,5 +1,6 @@
 import { LitElement, html, css, nothing } from "lit";
 import { stylesApp } from "./styles/indexStyles.js";
+import { i18next } from './utils/translateConfig.js'
 import "./components/HeaderComponent.js";
 import * as data from "../data/data.js";
 const logo = new URL("../assets/open-wc-logo.svg", import.meta.url).href;
@@ -17,12 +18,13 @@ class PortfolioApp extends LitElement {
 
   constructor() {
     super();
-    this.header = "My app";
     this.links = data.linksSocial;
     this.technologies = data.technologies;
     this.information = data.information;
     this.education = data.education;
     this.hobbies = data.hobbies;
+    this.languages = data.languages;
+    this.experience = data.experience;
   }
 
   connectedCallback() {
@@ -41,6 +43,8 @@ class PortfolioApp extends LitElement {
       }
       $bodyElement.classList.add(themes[detail]);
     });
+
+    this.addEventListener("open-menu", this.handleMenuOptions);
   }
 
   get _linksSocial() {
@@ -91,9 +95,9 @@ class PortfolioApp extends LitElement {
       ? this.education.map(
           (education) => html`
             <div>
-              <h3>${education.school}</h3>
+              <h3>${i18next.t(education.school)}</h3>
               ${education.certificate
-                ? html`<p>${education.certificate}</p>`
+                ? html`<p>${i18next.t(education.certificate)}</p>`
                 : nothing}
               <time>${education.startDate}</time> -
               <time>${education.endDate}</time>
@@ -103,13 +107,36 @@ class PortfolioApp extends LitElement {
       : nothing}`;
   }
 
+  get _getExperience() {
+    return html`
+    ${this.experience.length ? this.experience.map(experience => html`
+    <div class="card__experience">
+        <h3 class="spacing-small">
+          <sl-icon name="company" library="my-icons" class="icon_company"></sl-icon>${i18next.t(experience.company)}</h3>
+        <h4 class="spacing-small">${i18next.t(experience.position)}</h4>
+        ${experience.activities.length ? html`
+        <ul>
+          ${experience.activities.map(exp => html`
+            <li>${i18next.t(exp)}</li>
+          `)}
+        </ul>
+        `: html`<p>Sin experiencia</p>`}
+      </div>
+    `) : nothing }
+
+    `;
+  }
+
   get _getHobbies() {
     return html`
       <div class="container__hobbies">
         ${this.hobbies.length
           ? this.hobbies.map(
               (hobbie) => html`
-                <sl-image-comparer position=${hobbie.position} class="${hobbie.class}">
+                <sl-image-comparer
+                  position=${hobbie.position}
+                  class="${hobbie.class}"
+                >
                   <img
                     slot="before"
                     src=${hobbie.startImg}
@@ -128,35 +155,99 @@ class PortfolioApp extends LitElement {
     `;
   }
 
+  get _listLanguages() {
+    return 
+  }
+
+  get getMenu() {
+    return html`
+      <sl-drawer label=${i18next.t('user-setting-title')} class="drawer-overview">
+        <sl-details summary=${i18next.t('user-language-title')} class="menu__languages" @click=${this._handleLanguages}>
+            ${this.languages.map(language => html`
+              <sl-menu-item value=${language.lang}>
+                ${language.language}
+                <sl-icon slot="prefix" name="${language.icon}" library="languages-icons"></sl-icon>
+              </sl-menu-item>
+            `)}
+          <sl-icon slot="expand-icon" name="translate" library="my-icons">
+        </sl-details>
+        <sl-button
+          id="closeMenu"
+          slot="footer"
+          variant="primary"
+          @click=${() => {
+            this.getMenuDrawer.hide();
+          }}
+          >${i18next.t('user-menu-close')}</sl-button
+        >
+      </sl-drawer>
+    `;
+  }
+
+  get getMenuDrawer() {
+    return this.renderRoot.querySelector("sl-drawer");
+  }
+
+  get btnCloseMenu() {
+    return this.renderRoot.querySelector("#closeMenu");
+  }
+
+  handleMenuOptions() {
+    this.getMenuDrawer.show();
+  }
+
+  async _handleLanguages(evt) {
+    const elementLanguage = evt.target;
+    const selectedOption = elementLanguage?.value;
+    if (selectedOption) {
+      try {
+        await i18next.changeLanguage(selectedOption);
+        this.requestUpdate();
+        await this.updateComplete;
+        setStorage('languageKey', selectedOption);
+        console.log('mostrar popup');
+      } catch (error) {
+        console.log('lanzar popup de error');
+      }
+    }
+  }
+
+
   render() {
     return html`
+      <!-- Menu -->
+      ${this.getMenu}
+      <!-- Header -->
       <header-component imgAvatar="../assets/avatar.jpg"></header-component>
+      <!-- Contenido principal -->
       <main class="container__app">
         <section class="presentation__portfolio">
           <div class="container__presentation">
             <h1>JOSE LUIS MARTINEZ ZALLAS</h1>
-            <h2>Desarrollador web</h2>
+            <h2>${i18next.t('user-profile')}</h2>
             ${this._linksSocial}
           </div>
         </section>
         <section class="information">
-          <h3>${this.information}</h3>
+          <h3 class="main__information">${i18next.t(this.information)}</h3>
           <sl-card class="card-header">
-            <div slot="header"><h2>Educación</h2></div>
+            <div slot="header"><h2>${i18next.t('user-education')}</h2></div>
             ${this._getEducation}
           </sl-card>
-
+          <!-- Experiencia -->
           <sl-card class="card-header">
-            <div slot="header"><h2>Experencia</h2></div>
-            This card has a header. You can put all sorts of things in it!
+            <div slot="header">
+              <h2>${i18next.t('user-experience-title')}</h2>
+            </div>
+            ${this._getExperience}
           </sl-card>
 
-          <sl-details summary="Tecnologias" class="card-header">
+          <sl-details summary="${i18next.t('user-technologies-title')}" class="card-header">
             ${this._getTechnologies}
           </sl-details>
 
           <sl-card class="card-header">
-            <div slot="header"><h2>Hobbies</h2></div>
+            <div slot="header"><h2>${i18next.t('user-hobbies-title')}</h2></div>
             ${this._getHobbies}
           </sl-card>
         </section>

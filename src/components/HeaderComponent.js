@@ -1,8 +1,5 @@
-
-import { html, css, LitElement, nothing }  from 'lit';
-
+import { html, css, LitElement, nothing } from "lit";
 export default class HeaderComponent extends LitElement {
-  
   static styles = css`
     :host {
       display: block;
@@ -28,71 +25,97 @@ export default class HeaderComponent extends LitElement {
       width: 90%;
       margin: 1rem auto;
     }
+
+    .options__header {
+      display: flex;
+      align-items: center;
+      
+    }
+    
   `;
   static properties = {
     title: String,
     imgAvatar: String,
-    optionsConfig: Array
-  }
+    optionsConfig: Array,
+  };
 
   constructor() {
     super();
-    this.title = 'Hola mundo';
-    this.imgAvatar = '';
-    this.optionsConfig = [{ name: 'brightness-high', class: 'theme__icon', method: 'theme' }];
+    this.title = "Hola mundo";
+    this.imgAvatar = "";
+    this.optionsConfig = [
+      { name: "brightness-high", class: "theme__icon", method: "theme" },
+      { name: 'list', class: 'theme__icon', method: 'menu' }
+    ];
   }
 
-  
   _handleOptions(element, dataIcon) {
     const optionsMethods = {
-      'theme': '_changeTheme'
-    }
+      theme: () => {
+        this['_changeTheme'](false, element);
+      },
+      menu: () => {
+        this['_optionsMenu'](element);
+      }
+    };
     const { method } = dataIcon;
-    
+
     if (optionsMethods[method]) {
-      this[optionsMethods[method]](false, element);
+      optionsMethods[method]();
     }
-  };
+  }
+  
+  _optionsMenu() {
+    _dispatchCustomEvent(this, 'open-menu');
+  }
 
   _changeTheme(isFirstRender, element) {
-    const getTheme = getStorage('theme');
-    const icon = element.getAttribute('name');
-    const iconSelected = isFirstRender ? (getTheme || icon) : (this._selectedTheme(getTheme) || this._selectedTheme(iconSelected));
-    element.setAttribute('name', iconSelected);
-    setStorage('theme', iconSelected);
-    _dispatchCustomEvent(this, 'changed-theme', iconSelected);
+    const getTheme = getStorage("theme");
+    const icon = element.getAttribute("name");
+    const iconSelected = isFirstRender
+      ? getTheme || icon
+      : this._selectedTheme(getTheme) || this._selectedTheme(iconSelected);
+    element.setAttribute("name", iconSelected);
+    setStorage("theme", iconSelected);
+    _dispatchCustomEvent(this, "changed-theme", iconSelected);
   }
 
   _selectedTheme(icon) {
-    if(!icon) return; 
-    return icon === 'brightness-high' ? 'moon' : 'brightness-high';
+    if (!icon) return;
+    return icon === "brightness-high" ? "moon" : "brightness-high";
   }
 
-
   firstUpdated() {
-    const defineTheme = this.renderRoot.querySelector('.theme__icon');
+    const defineTheme = this.renderRoot.querySelector(".theme__icon");
     this._changeTheme(true, defineTheme);
   }
 
-
-
   get _optionsConfig() {
-    return html`${this.optionsConfig.length ? this.optionsConfig.map(icon => html`
-      <sl-icon-button 
-      name="${icon.name}"
-      label="${icon.label || 'icon'}"
-      class="${icon.class}"
-      @click=${(evt) => {
-        const $iconSelected = evt.currentTarget;
-        this._handleOptions($iconSelected, icon);
-      }}></sl-icon-button>
-    `): nothing}`
+    return html`${this.optionsConfig.length
+      ? this.optionsConfig.map(
+          (icon) => html`
+            <sl-icon-button
+              name="${icon.name}"
+              label="${icon.label || "icon"}"
+              class="${icon.class}"
+              @click=${(evt) => {
+                const $iconSelected = evt.currentTarget;
+                this._handleOptions($iconSelected, icon);
+              }}
+            ></sl-icon-button>
+          `
+        )
+      : nothing}`;
   }
 
   render() {
     return html`
       <header>
-        <sl-avatar class="perfil__avatar" label="Perfil" image="${this.imgAvatar}"></sl-avatar>
+        <sl-avatar
+          class="perfil__avatar"
+          label="Perfil"
+          image="${this.imgAvatar}"
+        ></sl-avatar>
         <nav></nav>
         <div class="options__header">
           ${this._optionsConfig}
@@ -103,4 +126,4 @@ export default class HeaderComponent extends LitElement {
   }
 }
 
-customElements.define('header-component', HeaderComponent);
+customElements.define("header-component", HeaderComponent);
