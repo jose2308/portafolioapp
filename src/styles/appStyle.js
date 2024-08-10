@@ -47,6 +47,10 @@ export const stylesApp = (css) => css`
     margin-bottom: 2rem;
   }
 
+  ::slotted([slot="header"]) {
+    font-size: 3rem;
+  }
+
   .container__technologie {
     margin-bottom: 1rem;
   }
@@ -108,9 +112,23 @@ export const stylesApp = (css) => css`
 
   .card__experience {
     margin-bottom: 2rem;
+    line-height: 1.4;
+  }
+  #aboutMe {
+    margin: 0 0 0.5rem 0;
+  }
+
+  #aboutMe ~ p {
+    font-size: 1.2rem;
+    margin: 0 0 1.5rem 0;
+  }
+
+  ul > li {
+    margin-bottom: 1rem;
   }
 
   .main__information {
+    line-height: 1.5;
     margin: 2rem 0;
   }
 

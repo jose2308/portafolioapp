@@ -30,15 +30,13 @@ class PortfolioApp extends LitElement {
   connectedCallback() {
     super.connectedCallback();
     const $bodyElement = document.body;
-    console.log($bodyElement);
     this.addEventListener("changed-theme", function (evt) {
       const { detail } = evt;
       const themes = {
         moon: "sl-theme-dark",
         "brightness-high": "sl-theme-light",
       };
-      console.log("hola mundo");
-      for (const [index, dato] of $bodyElement.classList.entries()) {
+      for (const [ index, dato ] of $bodyElement.classList.entries()) {
         $bodyElement.classList.remove(dato);
       }
       $bodyElement.classList.add(themes[detail]);
@@ -205,7 +203,6 @@ class PortfolioApp extends LitElement {
         this.requestUpdate();
         await this.updateComplete;
         setStorage('languageKey', selectedOption);
-        console.log('mostrar popup');
       } catch (error) {
         console.log('lanzar popup de error');
       }
@@ -229,11 +226,16 @@ class PortfolioApp extends LitElement {
           </div>
         </section>
         <section class="information">
-          <h3 class="main__information">${i18next.t(this.information)}</h3>
+          <div>
+            <h1 id="aboutMe">${i18next.t('user-about-me')}</h1>
+            <p class="main__information">${i18next.t(this.information)}</p>
+          </div>
+
           <sl-card class="card-header">
-            <div slot="header"><h2>${i18next.t('user-education')}</h2></div>
-            ${this._getEducation}
+            <div slot="header"><h2>${i18next.t('user-education')} <sl-icon name="book"></sl-icon></h2></div>
+            ${this._getEducation}  
           </sl-card>
+
           <!-- Experiencia -->
           <sl-card class="card-header">
             <div slot="header">

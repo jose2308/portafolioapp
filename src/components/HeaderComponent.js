@@ -34,14 +34,12 @@ export default class HeaderComponent extends LitElement {
     
   `;
   static properties = {
-    title: String,
     imgAvatar: String,
     optionsConfig: Array,
   };
 
   constructor() {
     super();
-    this.title = "Hola mundo";
     this.imgAvatar = "";
     this.optionsConfig = [
       { name: "brightness-high", class: "theme__icon", method: "theme" },
@@ -116,7 +114,6 @@ export default class HeaderComponent extends LitElement {
           label="Perfil"
           image="${this.imgAvatar}"
         ></sl-avatar>
-        <nav></nav>
         <div class="options__header">
           ${this._optionsConfig}
         </div>

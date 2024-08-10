@@ -1,4 +1,5 @@
 const spanish = {
+  'user-about-me': 'Sobre mi',
   'user-profile': 'Desarrollador fullstack',
   'user-information': 'Hola soy un desarrollador que le gusta programar en sus tiempos libres, con experiencia en el mundo de la informática.',
   'user-education': 'Educación',
@@ -25,10 +26,11 @@ const spanish = {
   'user-company-bbva-activity-4': 'Apoyo de incidencias productivas',
   'user-company-bbva-activity-5': 'Revisión del codigo en los repositorios aplicando buenas prácticas',
   'user-company-bbva-activity-6': 'Refactorización y atención del codigo, tanto en pruebas unitarias como a nivel aplicativo',
-  'user-company-bbva-activity-7': 'Soporte en la construcción de los jobs en los repositorios',
+  'user-company-bbva-activity-7': 'Soporte en la construcción de los jobs en los repositorios'
 };
 
 const english = {
+  'user-about-me': 'About me',
   'user-profile': 'Fullstack developer',
   'user-information': 'Hello, I am a developer who likes to program in his free time, with experience in the world of computing.',
   'user-education': 'Education',
