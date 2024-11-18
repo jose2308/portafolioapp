@@ -49,7 +49,14 @@ const hobbies = [
 const languages = [
   { language: 'English', icon: 'english', lang: 'en' },
   { language: 'Español', icon: 'espanol', lang: 'es' }
-]
+];
+
+const projects = [{
+  nameProject: 'MoviesApp',
+  description: 'user-project-movie-app',
+  image: '../assets/movieApp.png',
+  accesibility: 'user-project-movie-app-accesibility'
+}]
 
 export {
   technologies,
@@ -58,5 +65,6 @@ export {
   education,
   hobbies,
   languages,
-  experience
+  experience,
+  projects
 }

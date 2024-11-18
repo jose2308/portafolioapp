@@ -51,9 +51,15 @@ export const stylesApp = (css) => css`
     font-size: 3rem;
   }
 
+  .container__technologies {
+    display: grid;
+    grid-template-columns: var(--container-technologies-grid-template, repeat(3, 1fr));
+    justify-items: center;
+  }
   .container__technologie {
     margin-bottom: 1rem;
   }
+  
 
   .container_techonologie_name {
     display: flex;
@@ -157,6 +163,10 @@ export const stylesApp = (css) => css`
   @media (max-width: 420px) {
     header-component {
       position: relative;
+    }
+    .container__technologies {
+      --container-technologies-grid-template: repeat(2, 1fr);
+      justify-items: left;
     }
     .container__app {
       display: block;

@@ -12,6 +12,7 @@ class PortfolioApp extends LitElement {
     technologies: { type: Array },
     information: { type: String },
     hobbies: { type: Array },
+    listProjects: { type: Array }
   };
 
   static styles = [stylesApp(css)];
@@ -25,6 +26,7 @@ class PortfolioApp extends LitElement {
     this.hobbies = data.hobbies;
     this.languages = data.languages;
     this.experience = data.experience;
+    this.listProjects = data.projects;
   }
 
   connectedCallback() {
@@ -72,17 +74,11 @@ class PortfolioApp extends LitElement {
             <sl-icon
               class="link__icon"
               library="my-icons"
-              name=${technologie.name}
-              label=${technologie.name}
+              name=${technologie?.name}
+              label=${technologie?.name}
             ></sl-icon>
             <span>${technologie.name}</span>
           </div>
-
-          <sl-progress-bar
-            value=${technologie.experience}
-            class="progress-bar-values"
-            >${technologie.experience}%</sl-progress-bar
-          >
         </div>
       `
     )}`;
@@ -125,6 +121,24 @@ class PortfolioApp extends LitElement {
     `;
   }
 
+  get _getProjects() {
+    return html`${this.listProjects.length > 0 ? this.listProjects.map(project => {
+      return html`
+        <sl-card class="card-header">
+          <img
+            slot="image"
+            src=${project.image}
+            alt=""/>
+          <h2>${project.nameProject}</h2>
+          <p>${i18next.t(project.description)}</p>
+          <div slot="footer">
+            <sl-button variant="primary" pill>${i18next.t('user-technologies-more-information')}</sl-button>
+          </div>
+        </sl-card>
+      `;
+    }) : nothing }`;
+  }
+
   get _getHobbies() {
     return html`
       <div class="container__hobbies">
@@ -151,10 +165,6 @@ class PortfolioApp extends LitElement {
           : nothing}
       </div>
     `;
-  }
-
-  get _listLanguages() {
-    return 
   }
 
   get getMenu() {
@@ -244,9 +254,16 @@ class PortfolioApp extends LitElement {
             ${this._getExperience}
           </sl-card>
 
-          <sl-details summary="${i18next.t('user-technologies-title')}" class="card-header">
-            ${this._getTechnologies}
-          </sl-details>
+          <sl-card class="card-header">
+            <div slot="header">
+              <h2>${i18next.t('user-technologies-title')}</h2>
+            </div>
+            <div class="container__technologies">
+              ${this._getTechnologies}
+            </div>
+          </sl-card>
+
+          ${this._getProjects}
 
           <sl-card class="card-header">
             <div slot="header"><h2>${i18next.t('user-hobbies-title')}</h2></div>
