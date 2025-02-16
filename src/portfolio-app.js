@@ -1,6 +1,6 @@
 import { LitElement, html, css, nothing } from "lit";
 import { stylesApp } from "./styles/indexStyles.js";
-import { i18next } from './utils/translateConfig.js'
+import { i18next } from "./utils/translateConfig.js";
 import "./components/HeaderComponent.js";
 import * as data from "../data/data.js";
 const logo = new URL("../assets/open-wc-logo.svg", import.meta.url).href;
@@ -12,7 +12,7 @@ class PortfolioApp extends LitElement {
     technologies: { type: Array },
     information: { type: String },
     hobbies: { type: Array },
-    listProjects: { type: Array }
+    listProjects: { type: Array },
   };
 
   static styles = [stylesApp(css)];
@@ -38,10 +38,14 @@ class PortfolioApp extends LitElement {
         moon: "sl-theme-dark",
         "brightness-high": "sl-theme-light",
       };
-      for (const [ index, dato ] of $bodyElement.classList.entries()) {
+      this.removeAttribute("mode");
+      for (const [index, dato] of $bodyElement.classList.entries()) {
         $bodyElement.classList.remove(dato);
       }
       $bodyElement.classList.add(themes[detail]);
+      if (themes[detail] === "sl-theme-dark") {
+        this.setAttribute("mode", "dark");
+      }
     });
 
     this.addEventListener("open-menu", this.handleMenuOptions);
@@ -91,7 +95,9 @@ class PortfolioApp extends LitElement {
             <div>
               <h3>${i18next.t(education.school)}</h3>
               ${education.certificate
-                ? html`<p>${i18next.t(education.certificate)}</p>`
+                ? html`<p class="size-medium">
+                    ${i18next.t(education.certificate)}
+                  </p>`
                 : nothing}
               <time>${education.startDate}</time> -
               <time>${education.endDate}</time>
@@ -103,40 +109,64 @@ class PortfolioApp extends LitElement {
 
   get _getExperience() {
     return html`
-    ${this.experience.length ? this.experience.map(experience => html`
-    <div class="card__experience">
-        <h3 class="spacing-small">
-          <sl-icon name="company" library="my-icons" class="icon_company"></sl-icon>${i18next.t(experience.company)}</h3>
-        <h4 class="spacing-small">${i18next.t(experience.position)}</h4>
-        ${experience.activities.length ? html`
-        <ul>
-          ${experience.activities.map(exp => html`
-            <li>${i18next.t(exp)}</li>
-          `)}
-        </ul>
-        `: html`<p>Sin experiencia</p>`}
-      </div>
-    `) : nothing }
-
+      ${this.experience.length
+        ? this.experience.map(
+            (experience) => html`
+              <div class="card__experience">
+                <h3 class="spacing-small">
+                  <sl-icon
+                    name="company"
+                    library="my-icons"
+                    class="icon_company"
+                  ></sl-icon
+                  >${i18next.t(experience.company)}
+                </h3>
+                <h4 class="spacing-small">${i18next.t(experience.position)}</h4>
+                ${experience.activities.length
+                  ? html`
+                      <ul>
+                        ${experience.activities.map(
+                          (exp) => html` <li>${i18next.t(exp)}</li> `
+                        )}
+                      </ul>
+                    `
+                  : html`<p>Sin experiencia</p>`}
+              </div>
+            `
+          )
+        : nothing}
     `;
   }
 
   get _getProjects() {
-    return html`${this.listProjects.length > 0 ? this.listProjects.map(project => {
-      return html`
-        <sl-card class="card-header">
-          <img
-            slot="image"
-            src=${project.image}
-            alt=""/>
-          <h2>${project.nameProject}</h2>
-          <p>${i18next.t(project.description)}</p>
-          <div slot="footer">
-            <sl-button variant="primary" pill>${i18next.t('user-technologies-more-information')}</sl-button>
-          </div>
-        </sl-card>
-      `;
-    }) : nothing }`;
+    return html`${this.listProjects.length > 0
+      ? this.listProjects.map((project) => {
+          return html`
+            <sl-card class="card-header">
+              <img
+                class="image__project"
+                slot="image"
+                src=${project.image}
+                alt=""
+              />
+              <h2>${project.nameProject}</h2>
+              <p class="card__project__description">
+                ${i18next.t(project.description)}
+              </p>
+              <div slot="footer">
+                <sl-button
+                  ?disabled=${!project?.link}
+                  href=${project?.link}
+                  target="_blank"
+                  variant="primary"
+                  pill
+                  >${i18next.t("user-technologies-more-information")}</sl-button
+                >
+              </div>
+            </sl-card>
+          `;
+        })
+      : nothing}`;
   }
 
   get _getHobbies() {
@@ -169,14 +199,24 @@ class PortfolioApp extends LitElement {
 
   get getMenu() {
     return html`
-      <sl-drawer label=${i18next.t('user-setting-title')} class="drawer-overview">
-        <sl-details summary=${i18next.t('user-language-title')} class="menu__languages" @click=${this._handleLanguages}>
-            ${this.languages.map(language => html`
-              <sl-menu-item value=${language.lang}>
-                ${language.language}
-                <sl-icon slot="prefix" name="${language.icon}" library="languages-icons"></sl-icon>
-              </sl-menu-item>
-            `)}
+      <sl-drawer label=${i18next.t(
+        "user-setting-title"
+      )} class="drawer-overview">
+        <sl-details summary=${i18next.t(
+          "user-language-title"
+        )} class="menu__languages" @click=${this._handleLanguages}>
+            ${this.languages.map(
+              (language) => html`
+                <sl-menu-item value=${language.lang}>
+                  ${language.language}
+                  <sl-icon
+                    slot="prefix"
+                    name="${language.icon}"
+                    library="languages-icons"
+                  ></sl-icon>
+                </sl-menu-item>
+              `
+            )}
           <sl-icon slot="expand-icon" name="translate" library="my-icons">
         </sl-details>
         <sl-button
@@ -186,7 +226,7 @@ class PortfolioApp extends LitElement {
           @click=${() => {
             this.getMenuDrawer.hide();
           }}
-          >${i18next.t('user-menu-close')}</sl-button
+          >${i18next.t("user-menu-close")}</sl-button
         >
       </sl-drawer>
     `;
@@ -212,61 +252,63 @@ class PortfolioApp extends LitElement {
         await i18next.changeLanguage(selectedOption);
         this.requestUpdate();
         await this.updateComplete;
-        setStorage('languageKey', selectedOption);
+        setStorage("languageKey", selectedOption);
       } catch (error) {
-        console.log('lanzar popup de error');
+        console.log("lanzar popup de error");
       }
     }
   }
-
 
   render() {
     return html`
       <!-- Menu -->
       ${this.getMenu}
       <!-- Header -->
-      <header-component imgAvatar="../assets/avatar.jpg"></header-component>
+      <header-component imgAvatar="../assets/gatito.svg"></header-component>
       <!-- Contenido principal -->
       <main class="container__app">
         <section class="presentation__portfolio">
           <div class="container__presentation">
-            <h1>JOSE LUIS MARTINEZ ZALLAS</h1>
-            <h2>${i18next.t('user-profile')}</h2>
+            <h1 class="name__user">JOSE LUIS MARTINEZ ZALLAS</h1>
+            <h2>${i18next.t("user-profile")}</h2>
             ${this._linksSocial}
           </div>
         </section>
         <section class="information">
           <div>
-            <h1 id="aboutMe">${i18next.t('user-about-me')}</h1>
+            <h1 id="aboutMe">${i18next.t("user-about-me")}</h1>
             <p class="main__information">${i18next.t(this.information)}</p>
           </div>
 
+          <h2>Proyectos</h2>
+          <div class="container__projects">${this._getProjects}</div>
+          
           <sl-card class="card-header">
-            <div slot="header"><h2>${i18next.t('user-education')} <sl-icon name="book"></sl-icon></h2></div>
-            ${this._getEducation}  
+            <div slot="header">
+              <h2>
+                ${i18next.t("user-education")} <sl-icon name="book"></sl-icon>
+              </h2>
+            </div>
+            ${this._getEducation}
           </sl-card>
 
           <!-- Experiencia -->
           <sl-card class="card-header">
             <div slot="header">
-              <h2>${i18next.t('user-experience-title')}</h2>
+              <h2>${i18next.t("user-experience-title")}</h2>
             </div>
             ${this._getExperience}
           </sl-card>
 
           <sl-card class="card-header">
             <div slot="header">
-              <h2>${i18next.t('user-technologies-title')}</h2>
+              <h2>${i18next.t("user-technologies-title")}</h2>
             </div>
-            <div class="container__technologies">
-              ${this._getTechnologies}
-            </div>
+            <div class="container__technologies">${this._getTechnologies}</div>
           </sl-card>
 
-          ${this._getProjects}
-
           <sl-card class="card-header">
-            <div slot="header"><h2>${i18next.t('user-hobbies-title')}</h2></div>
+            <div slot="header"><h2>${i18next.t("user-hobbies-title")}</h2></div>
             ${this._getHobbies}
           </sl-card>
         </section>

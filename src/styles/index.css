@@ -1,7 +1,12 @@
 body {
   font-family: 'Times New Roman', Times, serif;
+  line-height: 1.5;
+  background-image: linear-gradient(to right, #93d0ff, #a1ceff, #b1cbff, #c1c7ff, #d1c4ff);
+
+
+
 }
 body.sl-theme-dark {
   color: white;
-  background-color: black;
+  background-image: linear-gradient(to right, #04003e, #1d0029, #1e0019, #16000a, #000000);
 }

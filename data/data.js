@@ -55,8 +55,16 @@ const projects = [{
   nameProject: 'MoviesApp',
   description: 'user-project-movie-app',
   image: '../assets/movieApp.png',
-  accesibility: 'user-project-movie-app-accesibility'
-}]
+  accesibility: 'user-project-movie-app-accesibility',
+  link: ''
+},
+{
+  nameProject: 'DragonBallApp',
+  description: 'user-project-dragon-ball-app',
+  image: '../assets/dragonBallApp.png',
+  accesibility: 'user-project-dragon-ball-app-accesibility',
+  link: ''
+},]
 
 export {
   technologies,

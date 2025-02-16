@@ -5,11 +5,57 @@ export const stylesApp = (css) => css`
     --heigth-display-screen: 100vh;
   }
 
+
+
   header-component {
     position: sticky;
     padding: 0 1rem;
     margin: 0;
     top: 0px;
+  }
+
+  .name__user {
+    font-family: 'fontNameCustom', Arial, Helvetica, sans-serif;
+    animation: shadowWhite 3s infinite;
+  }
+
+  :host(:not([mode="dark"])) .card-header::part(base) {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(4.1px);
+    -webkit-backdrop-filter: blur(4.1px);
+    border: 1px solid rgba(255, 255, 255, 0.43);
+  }
+
+
+  :host([mode="dark"]) .name__user {
+    animation: shadowBlack 3s infinite;
+  }
+
+  @keyframes shadowWhite {
+    0%,
+    100% {
+      text-shadow: none;
+    }
+    50% {
+      text-shadow: 2px 0px 15px black;
+    }
+  }
+
+  @keyframes shadowBlack {
+    0%,
+    100% {
+      text-shadow: none;
+    }
+
+    50% {
+      text-shadow: 2px 0px 15px white;
+    }
+  }
+
+  .size-medium {
+    font-size: 1.2rem;
   }
 
   .container__app {
@@ -32,9 +78,8 @@ export const stylesApp = (css) => css`
 
   .information {
     padding: 1rem;
-    flex: 1;
+    flex: 2;
     overflow-y: auto;
-    scrollbar-width: none;
     font-size: 1rem;
   }
 
@@ -53,13 +98,27 @@ export const stylesApp = (css) => css`
 
   .container__technologies {
     display: grid;
-    grid-template-columns: var(--container-technologies-grid-template, repeat(3, 1fr));
+    grid-template-columns: var(
+      --container-technologies-grid-template,
+      repeat(3, 1fr)
+    );
     justify-items: center;
   }
   .container__technologie {
     margin-bottom: 1rem;
   }
-  
+
+  .container__projects {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1rem;
+  }
+
+  .card__project__description {
+    height: 100px;
+    overflow-y: scroll;
+    scrollbar-width: none;
+  }
 
   .container_techonologie_name {
     display: flex;
@@ -81,12 +140,17 @@ export const stylesApp = (css) => css`
     display: block;
   }
 
+  .card-header .image__project {
+    object-fit: cover;
+    height: 150px;
+  }
+
   .container__hobbies {
     display: grid;
-    grid-template-areas: 
-    "item-1 item-2"
-    "item-1 item-3"
-    "item-1 item-4";
+    grid-template-areas:
+      "item-1 item-2"
+      "item-1 item-3"
+      "item-1 item-4";
     gap: 1rem;
   }
 
@@ -139,28 +203,33 @@ export const stylesApp = (css) => css`
   }
 
   @media (max-width: 1024px) {
-
     header-component {
       position: relative;
     }
-    
+
     .container__app {
       display: block;
       box-sizing: border-box;
       flex-direction: column;
-      height: 70vh;
-      
+      height: 100vh;
     }
     .information {
+      scrollbar-width: none;
       flex: 2;
     }
 
     sl-image-comparer {
-    --handle-size: 1.3rem;
-  }
+      --handle-size: 1.3rem;
+    }
   }
 
-  @media (max-width: 420px) {
+  @media (min-width: 491px) and (max-width: 750px) {
+    .container__projects {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 490px) {
     header-component {
       position: relative;
     }
@@ -178,7 +247,12 @@ export const stylesApp = (css) => css`
     .container__presentation h2 {
       font-size: 1rem;
     }
+
+    .container__projects {
+      display: block;
+    }
   }
+
   @media (min-width: 1026px) {
     .container__app {
       --heigth-display-screen: 70vh;
