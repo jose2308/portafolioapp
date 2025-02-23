@@ -30,6 +30,7 @@ const spanish = {
   'user-company-bbva-activity-7': 'Soporte en la construcción de los jobs en los repositorios',
   'user-project-movie-app': 'Web realizada con javascript, css y html puro en la cual se realiza el consumo de un API de peliculas y muestra el detalle de cada una de ellas',
   'user-project-dragon-ball-app': 'Primera aplicación realizada con Vue en la cual se utiliza el Api de dragon ball',
+  'user-projects-title': 'Proyectos'
 };
 
 const english = {
@@ -64,6 +65,7 @@ const english = {
   'user-company-bbva-activity-7': 'Support in the construction of jobs in the repositories.',
   'user-project-movie-app': 'Web made with JavaScript, CSS and HTML Pure in which the consumption of a movie API is made and shows the detail of each of them',
   'user-project-dragon-ball-app': 'First application made with Vue in which the Dragon Ball API is used',
+  'user-projects-title': 'Projects'
 }
 
 export { spanish, english };

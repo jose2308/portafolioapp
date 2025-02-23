@@ -81,7 +81,7 @@ class PortfolioApp extends LitElement {
               name=${technologie?.name}
               label=${technologie?.name}
             ></sl-icon>
-            <span>${technologie.name}</span>
+            <span>${technologie?.name}</span>
           </div>
         </div>
       `
@@ -142,7 +142,7 @@ class PortfolioApp extends LitElement {
     return html`${this.listProjects.length > 0
       ? this.listProjects.map((project) => {
           return html`
-            <sl-card class="card-header">
+            <sl-card class="card-header projects">
               <img
                 class="image__project"
                 slot="image"
@@ -153,6 +153,9 @@ class PortfolioApp extends LitElement {
               <p class="card__project__description">
                 ${i18next.t(project.description)}
               </p>
+
+              ${this.buildTechnologies(project?.technologies)}
+              
               <div slot="footer">
                 <sl-button
                   ?disabled=${!project?.link}
@@ -202,6 +205,7 @@ class PortfolioApp extends LitElement {
       <sl-drawer label=${i18next.t(
         "user-setting-title"
       )} class="drawer-overview">
+        
         <sl-details summary=${i18next.t(
           "user-language-title"
         )} class="menu__languages" @click=${this._handleLanguages}>
@@ -219,6 +223,7 @@ class PortfolioApp extends LitElement {
             )}
           <sl-icon slot="expand-icon" name="translate" library="my-icons">
         </sl-details>
+        
         <sl-button
           id="closeMenu"
           slot="footer"
@@ -259,6 +264,24 @@ class PortfolioApp extends LitElement {
     }
   }
 
+  buildTechnologies(technologies = []) {
+    
+    return technologies.length > 0 ? html`
+    <div class="container_project_technologies">
+      ${ technologies.map(technologie => {
+        const idxColors = Math.floor(Math.random() * colors.length);
+        const color = colors[idxColors];
+        return html`<sl-badge class="size-medium" variant=${color} pill>${technologie}</sl-badge>`;
+      })}
+    </div>`
+ : nothing;
+  }
+
+  _handleAnimation(evt) {
+      evt.currentTarget.setAttribute('name', 'pulse');
+      evt.currentTarget.play = true;
+      
+  }
   render() {
     return html`
       <!-- Menu -->
@@ -269,7 +292,11 @@ class PortfolioApp extends LitElement {
       <main class="container__app">
         <section class="presentation__portfolio">
           <div class="container__presentation">
-            <h1 class="name__user">JOSE LUIS MARTINEZ ZALLAS</h1>
+            
+            <sl-animation name="fadeInLeft" @click=${this._handleAnimation} duration="2000" .playbackRate=${1.5} iterations="1" easing="linear" play>
+              <h1 class="name__user">JOSE LUIS MARTINEZ ZALLAS</h1>
+            </sl-animation>  
+            
             <h2>${i18next.t("user-profile")}</h2>
             ${this._linksSocial}
           </div>
@@ -280,7 +307,7 @@ class PortfolioApp extends LitElement {
             <p class="main__information">${i18next.t(this.information)}</p>
           </div>
 
-          <h2>Proyectos</h2>
+          <h2>${i18next.t("user-projects-title")}</h2>
           <div class="container__projects">${this._getProjects}</div>
           
           <sl-card class="card-header">

@@ -15,3 +15,5 @@ const _dispatchCustomEvent = (element, nameEvent = 'generic-event', detail = nul
       composed: true
   }));
 }
+
+const colors = ['primary', 'success', 'neutral', 'warning', 'danger'];

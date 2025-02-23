@@ -5,8 +5,6 @@ export const stylesApp = (css) => css`
     --heigth-display-screen: 100vh;
   }
 
-
-
   header-component {
     position: sticky;
     padding: 0 1rem;
@@ -14,9 +12,14 @@ export const stylesApp = (css) => css`
     top: 0px;
   }
 
+
   .name__user {
     font-family: 'fontNameCustom', Arial, Helvetica, sans-serif;
-    animation: shadowWhite 3s infinite;
+
+  }
+
+  .card-header.projects::part(base) {
+    height: 500px;
   }
 
   :host(:not([mode="dark"])) .card-header::part(base) {
@@ -33,15 +36,7 @@ export const stylesApp = (css) => css`
     animation: shadowBlack 3s infinite;
   }
 
-  @keyframes shadowWhite {
-    0%,
-    100% {
-      text-shadow: none;
-    }
-    50% {
-      text-shadow: 2px 0px 15px black;
-    }
-  }
+
 
   @keyframes shadowBlack {
     0%,
@@ -74,6 +69,12 @@ export const stylesApp = (css) => css`
   .container__presentation {
     text-align: center;
     box-sizing: border-box;
+  }
+
+  .container_project_technologies {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
   }
 
   .information {
@@ -115,7 +116,6 @@ export const stylesApp = (css) => css`
   }
 
   .card__project__description {
-    height: 100px;
     overflow-y: scroll;
     scrollbar-width: none;
   }

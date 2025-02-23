@@ -1,11 +1,16 @@
 const technologies = [
-  { name: 'javascript', experience: '80' },
-  { name: 'sass', experience: '70' },
-  { name: 'java', experience: '65' },
-  { name: 'lit-element', experience: '80' },
-  { name: 'git', experience: '75' },
-  { name: 'springboot', experience: '50' },
-  { name: 'jenkins', experience: '40' }
+  { name: 'javascript', },
+  { name: 'typescript'},
+  { name: 'sass'},
+  { name: 'java'},
+  { name: 'lit-element'},
+  { name: 'git'},
+  { name: 'vueJS' },
+  { name: 'springboot'},
+  { name: 'jenkins'},
+  { name: 'tailwind'},
+  { name: 'SQL'},
+  
 ];
 
 const information = 'user-information';
@@ -13,6 +18,7 @@ const information = 'user-information';
 const linksSocial = [
   { icon: "bitbucket", url: "https://bitbucket.org/youself3301/workspace/repositories/", label: "bitbucket", library: 'my-icons' },
   { icon: "git", url: "https://github.com/jose2308", label: "github", library: 'my-icons' },
+  { icon: "cv", url: "../assets/CurriculumMartinezZallas2025.pdf", label: "cv", library: 'my-icons' },
 ];
 
 const education = [
@@ -56,14 +62,16 @@ const projects = [{
   description: 'user-project-movie-app',
   image: '../assets/movieApp.png',
   accesibility: 'user-project-movie-app-accesibility',
-  link: ''
+  link: '',
+  technologies: ['Lit-element', 'html', 'bootstrap']
 },
 {
   nameProject: 'DragonBallApp',
   description: 'user-project-dragon-ball-app',
   image: '../assets/dragonBallApp.png',
   accesibility: 'user-project-dragon-ball-app-accesibility',
-  link: ''
+  link: 'https://dragonball.martinezzallasdev.com/',
+  technologies: ['VueJS', 'Javascript', 'Typescript', 'Tailwind']
 },]
 
 export {
